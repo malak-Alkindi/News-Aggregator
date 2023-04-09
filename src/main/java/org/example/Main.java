@@ -38,15 +38,47 @@ public class Main {
             System.out.println("status    : " + m.getStatus());
             System.out.println("copyright : " + m.getCopyright());
 
-            System.out.println("\n\n properties of class response  \n");
+            System.out.println("\n\nproperties of class response  ");
             response r =m.response;
-            System.out.println("\n\n properties of class docs   \n");
-            System.out.println("\n\n properties of class response  \n");
-//            for (newsMain nam : Names) {
-//
-//                System.out.println("Cca2: " + nam.response.getDocs());
-//                System.out.println();
-//            }
+            System.out.println("\n\nproperties of class docs   ");
+            int di =1;
+            for (docs d : r.getDocs()) {
+
+                System.out.println("\n\nproperties of class docs " +di);
+                int mmi =1;
+                for (multimedia  mm : d.getMultimedia()) {
+
+                    System.out.println("\n\nproperties of class multimedia "+mmi);
+                    System.out.println("Caption : " + mm.getCaption());
+                    System.out.println("\n\nproperties of class legacy "+mmi);
+                    System.out.println("Xlarge : " + mm.getLegacy().getXlarge());
+                    mmi++;
+                }
+                System.out.println("\n\nproperties of class headline "+di);
+                System.out.println("Content_kicker : " + d.getHeadline().getContent_kicker());
+
+                int ki=1;
+                for (keywords  k : d.getKeywords()) {
+
+                    System.out.println("\n\nproperties of class keywords "+ki);
+                    System.out.println("major : " + k.getMajor());
+ki++;
+                }
+                System.out.println("\n\nproperties of class byline "+di);
+                System.out.println("Original : " + d.getByline().getOriginal());
+
+                int pi =1;
+                for (person   p : d.getByline().getPerson()) {
+
+                    System.out.println("\n\nproperties of class persons "+pi);
+                    System.out.println("Firstname : " + p.getFirstname());
+pi++;
+                }
+di++;
+		 }
+            System.out.println("\n\n properties of class meta   \n");
+            System.out.println("hits : " + r.getMeta().getHits());
+
 
             System.out.println("----------------------------");
 

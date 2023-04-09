@@ -9,8 +9,7 @@ import java.net.URL;
 import com.google.gson.Gson;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Random;
+
 import java.util.Scanner;
 
 public class Main {
@@ -27,7 +26,7 @@ public class Main {
         String user = scanner.nextLine()  ;
         System.out.println("enter the user the password");
         String pass = scanner.nextLine()  ;
-        newsMain newsMain = new newsMain();
+
         Connection con = null;
         try {
             Driver driver = (Driver) Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
@@ -51,7 +50,19 @@ public class Main {
             conn.disconnect();
 
             Gson gson = new Gson();
+            System.out.println("enter the category you want to filter");
+            String sql1 = "Select * from NewsAggregator where category like '"+scanner.nextLine()+"'";
+            Statement sttt = con.createStatement();
+            ResultSet resultSet = sttt.executeQuery(sql1);
+            while (resultSet.next()) {
+                System.out.println(resultSet.getInt("id"));
+                System.out.println(resultSet.getString("article_title"));
 
+                System.out.println(resultSet.getString("author"));
+                System.out.println(resultSet.getString("dates"));
+                System.out.println(resultSet.getString("category"));
+                System.out.println(resultSet.getString("content"));
+            }
             newsMain m = gson.fromJson(json.toString(), newsMain.class);
             System.out.println("properties of class newsMain  \n");
             System.out.println("status    : " + m.getStatus());
@@ -62,12 +73,17 @@ public class Main {
             System.out.println("\n\nproperties of class docs   ");
             int di =1;
             Statement stt = con.createStatement();
+
             for (docs d : r.getDocs()) {
-                String sql = "insert into NewsAggregator values('" + d.getHeadline().getMain()
-                        + "','" + d.getSource() + "','" + "1994/02/02" + "','"+d.getDocument_type()+"','"+d.getLead_paragraph()+"')";
-                stt.execute(sql);
+//                String sql = "insert into NewsAggregator values('" + d.getHeadline().getMain()
+//                        + "','" + d.getSource() + "','" + "1994/02/02" + "','"+d.getDocument_type()+"','"+d.getLead_paragraph()+"')";
+//                stt.execute(sql);
+// stt.execute(sql);
+
+
+
                 System.out.println("\n\nproperties of class docs " +di);
-                stt.execute(sql);
+
                 int mmi =1;
                 for (multimedia  mm : d.getMultimedia()) {
 
@@ -110,6 +126,10 @@ di++;
 
 //            String sql = "insert into hotels values (?, ?, ?, ?, ?, ?)";
 //            PreparedStatement pstmt = con.prepareStatement(sql);
+
+
+
+
             con.close();
         } catch (ProtocolException ex) {
             throw new RuntimeException(ex);
